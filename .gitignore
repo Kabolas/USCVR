@@ -1,3 +1,4 @@
+
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -378,4 +379,3 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
-
