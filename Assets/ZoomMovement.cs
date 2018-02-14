@@ -33,37 +33,38 @@ namespace Valve.VR.InteractionSystem
         {
             if (player)
             {
-                if (idOverwatchHand == 0)
-                {
-                    if (player.hands[0].controller.GetHairTriggerDown())
+                if (player.hands[0].AttachedObjects.Count == 0 && player.hands[1].AttachedObjects.Count == 0)
+                    if (idOverwatchHand == 0)
                     {
-                        idOverwatchHand = 1;
-                        initialPosition = new Vector3(player.hands[0].transform.position.x, player.hands[0].transform.position.y, player.hands[0].transform.position.z);
+                        if (player.hands[0].controller.GetHairTriggerDown())
+                        {
+                            idOverwatchHand = 1;
+                            initialPosition = new Vector3(player.hands[0].transform.position.x, player.hands[0].transform.position.y, player.hands[0].transform.position.z);
 
+                        }
+                        else if (player.hands[1].controller.GetHairTriggerDown())
+                        {
+                            initialPosition = new Vector3(player.hands[1].transform.position.x, player.hands[1].transform.position.y, player.hands[1].transform.position.z);
+                            idOverwatchHand = 2;
+                        }
                     }
-                    else if (player.hands[1].controller.GetHairTriggerDown())
+                    else
                     {
-                        initialPosition = new Vector3(player.hands[1].transform.position.x, player.hands[1].transform.position.y, player.hands[1].transform.position.z);
-                        idOverwatchHand = 2;
-                    }
-                }
-                else
-                {
-                    if (idOverwatchHand == 1 && player.hands[0].controller.GetHairTrigger())
-                    {
-                        player.transform.position = player.transform.position - player.hands[0].controller.velocity*4/5;//(player.hands[0].transform.position - initialPosition)*3;
-                    }
+                        if (idOverwatchHand == 1 && player.hands[0].controller.GetHairTrigger())
+                        {
+                            player.transform.position = player.transform.position - player.hands[0].controller.velocity * 4 / 5;//(player.hands[0].transform.position - initialPosition)*3;
+                        }
 
-                    else if (idOverwatchHand == 2 && player.hands[1].controller.GetHairTrigger())
-                    {
-                        player.transform.position = player.transform.position - player.hands[1].controller.velocity*4/5;//(player.hands[1].transform.position - initialPosition)*3;
+                        else if (idOverwatchHand == 2 && player.hands[1].controller.GetHairTrigger())
+                        {
+                            player.transform.position = player.transform.position - player.hands[1].controller.velocity * 4 / 5;//(player.hands[1].transform.position - initialPosition)*3;
+                        }
+                        if (player.transform.position.y < -0.5) player.transform.position = new Vector3 { x = player.transform.position.x, y = (float)-0.5, z = player.transform.position.z };
+                        if ((idOverwatchHand == 1 && player.hands[0].controller.GetHairTriggerUp()) || (idOverwatchHand == 2 && player.hands[1].controller.GetHairTriggerUp()))
+                        {
+                            idOverwatchHand = 0;
+                        }
                     }
-                    if (player.transform.position.y < -0.5) player.transform.position = new Vector3 { x = player.transform.position.x, y =(float)-0.5, z = player.transform.position.z};
-                    if ((idOverwatchHand == 1 && player.hands[0].controller.GetHairTriggerUp()) || (idOverwatchHand == 2 && player.hands[1].controller.GetHairTriggerUp()))
-                    {
-                        idOverwatchHand = 0;
-                    }
-                }
             }
         }
     }
