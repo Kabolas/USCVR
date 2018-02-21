@@ -10,16 +10,16 @@ public class CreateCity : MonoBehaviour
 {
     private CityObject[] cityMap;
     private int mapHeight = 5;
-    private int mapWidth = 5;
+    private int mapWidth = 8;
     public UnityEngine.Object[] houses;
-    public UnityEngine.Object[] roads;
+    public UnityEngine.GameObject[] roads;
 
 	// Use this for initialization
 	void Start ()
     {
         string[] cityMapL = System.IO.File.ReadAllText("Assets/map.csv").Split(new char[] {';','\n'});
         for (int i = 0; i < cityMapL.Length; i++)
-        {
+        { 
             Debug.Log(cityMapL[i]);
         }
         cityMap = new CityObject[cityMapL.Length];
@@ -33,11 +33,10 @@ public class CreateCity : MonoBehaviour
             CityObject cityObj = cityMap[i];
             int x = i % mapWidth;
             int y = i / mapWidth;
-            Debug.Log(x + " " + y);
             switch (cityObj)
             {
-                case CityObject.R: Instantiate(roads[(int)getRoadType(x, y)], new Vector3(x*10,3,y*10), Quaternion.identity); break;
-                default: Instantiate(houses[UnityEngine.Random.Range(0, 6)], new Vector3(0, 0, 0), Quaternion.identity); break;
+                case CityObject.R: Instantiate(roads[(int)getRoadType(x, y)], new Vector3(-x*20,3,y*20)+ roads[(int)getRoadType(x, y)].transform.position, roads[(int)getRoadType(x,y)].transform.rotation ); break;
+                default: Instantiate(houses[UnityEngine.Random.Range(0, 6)], new Vector3(-x*20, 0, y*20), Quaternion.Euler(-90, 0, 0)); break;
             }
         }
 	}
@@ -63,23 +62,23 @@ public class CreateCity : MonoBehaviour
             nbRoad += 1;
             u = true;
         }
-        if (x + 1 < mapWidth && cityMap[y + (x + 1) * mapHeight] == CityObject.R)
+        if (x + 1 < mapWidth && cityMap[(x + 1) + y * mapWidth] == CityObject.R)
         {
             nbRoad += 1;
             r = true;
         }
-        if (x - 1 >= 0 && cityMap[y + (x - 1) * mapHeight] == CityObject.R)
+        if (x - 1 >= 0 && cityMap[(x - 1) + y * mapWidth] == CityObject.R)
         {
             nbRoad += 1;
             l = true;
         }
-
+        Debug.Log(nbRoad);
         if (nbRoad == 1)
         {
             if (u == true) { return RoadType.DEAD_END_DOWN; }
-            else if (d == true) { return RoadType.DEAD_END_LEFT; }
-            else if (l == true) { return RoadType.DEAD_END_UP; }
-            else { return RoadType.DEAD_END_LEFT; }
+            else if (r == true) { return RoadType.DEAD_END_LEFT; }
+            else if (d == true) { return RoadType.DEAD_END_UP; }
+            else { return RoadType.DEAD_END_RIGHT; }
         }
         if (nbRoad == 2)
         {
@@ -97,7 +96,7 @@ public class CreateCity : MonoBehaviour
         if (nbRoad == 3)
         {
             if (d == false) { return RoadType.TRI_UP; }
-            else if (u == false) { return RoadType.TRI_LEFT; }
+            else if (r == false) { return RoadType.TRI_LEFT; }
             else if (l == false) { return RoadType.TRI_RIGHT; }
             else { return RoadType.TRI_DOWN; }
         }

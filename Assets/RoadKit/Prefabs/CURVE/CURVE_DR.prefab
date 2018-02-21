@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23981590179794770}
   - component: {fileID: 64491218446452666}
   m_Layer: 0
-  m_Name: road_sharpCurve_UL
+  m_Name: CURVE_DR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
