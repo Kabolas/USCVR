@@ -85,12 +85,12 @@ namespace Valve.VR.InteractionSystem
                     {
                         if (idOverwatchHand == 1 && h.controller.GetPress(EVRButtonId.k_EButton_Grip))
                         {
-                           player.transform.Translate(h.controller.velocity * 3 / 5);//(player.hands[0].transform.position - initialPosition)*3;
+                           player.transform.Translate(-h.controller.velocity * 3 / 5);//(player.hands[0].transform.position - initialPosition)*3;
                         }
 
-                        else if (idOverwatchHand == 2 && player.hands[1].controller.GetPress(EVRButtonId.k_EButton_Grip))
+                        else if (idOverwatchHand == 2 && h2.controller.GetPress(EVRButtonId.k_EButton_Grip))
                         {
-                            player.transform.Translate( h2.controller.velocity * 3 / 5);//(player.hands[1].transform.position - initialPosition)*3;
+                            player.transform.Translate(-h2.controller.velocity * 3 / 5);//(player.hands[1].transform.position - initialPosition)*3;
                         }
                         if (player.transform.position.y < -0.5) player.transform.position = new Vector3 { x = player.transform.position.x, y = (float)-0.5, z = player.transform.position.z };
                         if ((idOverwatchHand == 1 && h.controller.GetPressUp(EVRButtonId.k_EButton_Grip)) || (idOverwatchHand == 2 && player.hands[1].controller.GetPressUp(EVRButtonId.k_EButton_Grip)))
