@@ -12,7 +12,7 @@ public class PakingRenew : MonoBehaviour
     {
         foreach (GameObject carType in cars)
         {
-            if (this.gameObject.transform.Find(carType.name) == null && this.gameObject.transform.Find(carType.name + "(Clone)") == null)
+            if ( this.gameObject.transform.Find(carType.name + "(Clone)") == null)
             {
                 GameObject gamecar = Instantiate<GameObject>(carType, gameObject.transform);
                 gamecar.SetActive(true);
@@ -27,7 +27,7 @@ public class PakingRenew : MonoBehaviour
     {
         foreach (GameObject carType in cars)
         {
-            if (this.gameObject.transform.Find(carType.name + "(Clone)") == null && this.gameObject.transform.Find(carType.name) == null)
+            if (this.gameObject.transform.Find(carType.name + "(Clone)") == null)
             {
                 GameObject gamecar = Instantiate<GameObject>(carType, gameObject.transform);
                 gamecar.SetActive(true);

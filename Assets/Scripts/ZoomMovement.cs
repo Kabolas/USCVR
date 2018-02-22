@@ -43,10 +43,8 @@ namespace Valve.VR.InteractionSystem
             {
                 Hand h2 = player.hands[1];
                 if (parking && h2.isActiveAndEnabled)
-                    if (h2.controller.GetPressDown(EVRButtonId.k_EButton_SteamVR_Trigger))
-                        parking.SetActive(true);
-                    else if (h2.controller.GetPressUp(EVRButtonId.k_EButton_SteamVR_Trigger))
-                        parking.SetActive(false);
+                    if (h2.controller.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+                    { parking.SetActive(!parking.activeSelf); }
 
 
                 Hand h = player.hands[0];
