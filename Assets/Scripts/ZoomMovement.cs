@@ -16,6 +16,7 @@ namespace Valve.VR.InteractionSystem
         private int idOverwatchHand;
         private bool bothHands = false;
         private Hand test;
+        private Vector3 rotinit, Vectinit;
         // Use this for initialization
         void Start()
         {
@@ -30,6 +31,9 @@ namespace Valve.VR.InteractionSystem
             }
             if (parking)
                 parking.SetActive(false);
+
+            rotinit = new Vector3(0, 0);
+            Vectinit = new Vector3(0, 0);
         }
 
         // Update is called once per frame
@@ -39,10 +43,8 @@ namespace Valve.VR.InteractionSystem
             {
                 Hand h2 = player.hands[1];
                 if (parking && h2.isActiveAndEnabled)
-                    if (h2.controller.GetPressDown(EVRButtonId.k_EButton_SteamVR_Trigger))
-                        parking.SetActive(true);
-                    else if (h2.controller.GetPressUp(EVRButtonId.k_EButton_SteamVR_Trigger))
-                        parking.SetActive(false);
+                    if (h2.controller.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+                    { parking.SetActive(!parking.activeSelf); }
 
 
                 Hand h = player.hands[0];
@@ -51,9 +53,17 @@ namespace Valve.VR.InteractionSystem
                         h.GetComponent<SteamVR_LaserPointer>().thickness = (float)0.002;
                     else if (h.controller.GetPressUp(EVRButtonId.k_EButton_SteamVR_Trigger))
                         h.GetComponent<SteamVR_LaserPointer>().thickness = 0;
-                if (h.controller.GetPress(EVRButtonId.k_EButton_Grip) && player.hands[1].controller.GetPress(EVRButtonId.k_EButton_Grip))
+
+                if((h.controller.GetPress(EVRButtonId.k_EButton_Grip) && player.hands[1].controller.GetPressDown(EVRButtonId.k_EButton_Grip)) || (h.controller.GetPressDown(EVRButtonId.k_EButton_Grip) && player.hands[1].controller.GetPress(EVRButtonId.k_EButton_Grip)))
+                {
                     bothHands = true;
-                else bothHands = false;
+                    Vectinit = h.transform.position - h2.transform.position;
+                }
+                if (!h.controller.GetPress(EVRButtonId.k_EButton_Grip) || !h2.controller.GetPress(EVRButtonId.k_EButton_Grip))
+                    bothHands = false;
+                //if (h.controller.GetPressDown(EVRButtonId.k_EButton_Grip) && player.hands[1].controller.GetPressDown(EVRButtonId.k_EButton_Grip))
+                    //player.transform.Rotate(rotinit);
+                //bothHands = h.controller.GetPress(EVRButtonId.k_EButton_Grip) && player.hands[1].controller.GetPress(EVRButtonId.k_EButton_Grip);
                 if (!bothHands)
                     if (idOverwatchHand == 0)
                     {
@@ -73,12 +83,12 @@ namespace Valve.VR.InteractionSystem
                     {
                         if (idOverwatchHand == 1 && h.controller.GetPress(EVRButtonId.k_EButton_Grip))
                         {
-                            player.transform.position = player.transform.position - h.controller.velocity * 3 / 5;//(player.hands[0].transform.position - initialPosition)*3;
+                           player.transform.Translate(h.controller.velocity * 3 / 5);//(player.hands[0].transform.position - initialPosition)*3;
                         }
 
                         else if (idOverwatchHand == 2 && player.hands[1].controller.GetPress(EVRButtonId.k_EButton_Grip))
                         {
-                            player.transform.position = player.transform.position - player.hands[1].controller.velocity * 3 / 5;//(player.hands[1].transform.position - initialPosition)*3;
+                            player.transform.Translate( h2.controller.velocity * 3 / 5);//(player.hands[1].transform.position - initialPosition)*3;
                         }
                         if (player.transform.position.y < -0.5) player.transform.position = new Vector3 { x = player.transform.position.x, y = (float)-0.5, z = player.transform.position.z };
                         if ((idOverwatchHand == 1 && h.controller.GetPressUp(EVRButtonId.k_EButton_Grip)) || (idOverwatchHand == 2 && player.hands[1].controller.GetPressUp(EVRButtonId.k_EButton_Grip)))
@@ -88,7 +98,12 @@ namespace Valve.VR.InteractionSystem
                     }
                 else
                 {
-                    player.transform.Rotate(h.controller.angularVelocity);
+                    Vector3 newVect = h.transform.position - h2.transform.position;
+                    Vectinit.y = 0; newVect.y = 0;
+                    //player.transform.rotation.y = h2.controller.angularVelocity.y;
+                   // Vector3 hp1 = h.transform.position - player.transform.position, hp2 = h2.transform.position - player.transform.position, difh = h.transform.position - h2.transform.position;
+                   //player.transform.Rotate(new Vector3(0, 1, 0), -h2.controller.angularVelocity.y);
+                   // rotinit = player.transform.rotation.eulerAngles;
                 }
             }
         }
