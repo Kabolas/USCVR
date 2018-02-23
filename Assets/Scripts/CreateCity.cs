@@ -11,7 +11,7 @@ public class CreateCity : MonoBehaviour
     private CityObject[] cityMap;
     private int mapHeight = 5;
     private int mapWidth = 8;
-    public UnityEngine.Object[] houses;
+    public UnityEngine.GameObject[] houses;
     public UnityEngine.GameObject[] roads;
 
 	// Use this for initialization
@@ -33,11 +33,17 @@ public class CreateCity : MonoBehaviour
             CityObject cityObj = cityMap[i];
             int x = i % mapWidth;
             int y = i / mapWidth;
+            GameObject obj;
             switch (cityObj)
             {
-                case CityObject.R: Instantiate(roads[(int)getRoadType(x, y)], new Vector3(-x*20,3,y*20)+ roads[(int)getRoadType(x, y)].transform.position, roads[(int)getRoadType(x,y)].transform.rotation ); break;
-                default: Instantiate(houses[UnityEngine.Random.Range(0, 6)], new Vector3(-x*20, 0, y*20), Quaternion.Euler(-90, 0, 0)); break;
+                case CityObject.R:
+                    obj = roads[(int)getRoadType(x, y)];
+                    break;
+                default:
+                    obj = houses[UnityEngine.Random.Range(0, 6)];
+                    break;
             }
+            Instantiate(obj, new Vector3(-x * 20, 0, y * 20) + obj.transform.position, obj.transform.rotation);
         }
 	}
 	
