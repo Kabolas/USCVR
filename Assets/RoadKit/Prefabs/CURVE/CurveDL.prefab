@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4596825901546700}
-  - component: {fileID: 64962457022619924}
+  - component: {fileID: 65000271129011742}
   m_Layer: 0
   m_Name: CurveDL
   m_TagString: Untagged
@@ -112,8 +112,8 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1185419841691088}
   m_Mesh: {fileID: 4300000, guid: 4c7b66e21c63bba4994153e13d6ef8fa, type: 3}
---- !u!64 &64962457022619924
-MeshCollider:
+--- !u!65 &65000271129011742
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -121,8 +121,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300010, guid: 10900ec9ea3fc69459c3f2bb3d09ed70, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 20, y: 0.5, z: 20}
+  m_Center: {x: -10, y: 0.5, z: -9.5}
