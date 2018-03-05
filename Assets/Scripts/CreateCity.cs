@@ -114,6 +114,11 @@ public class CreateCity : MonoBehaviour
 
     void isRoad(IsRoadArguments args)
     {
+        if(args.position.x > 0 || args.position.z < 0)
+        {
+            args.answer = false;
+            return;
+        }
         int x = - (int) args.position.x/20;
         int y = (int) args.position.z/20;
         if(cityMap[x+y*mapWidth] == CityObject.R)
@@ -124,6 +129,6 @@ public class CreateCity : MonoBehaviour
         {
             args.answer = false;
         }
-        Debug.Log(x + ", " + y + " " + args.answer);
+        Debug.Log(args.position.x + "," + args.position.z + " : " + x + ", " + y + " " + args.answer);
     }
 }

@@ -1,6 +1,7 @@
 ﻿//======= Copyright (c) Valve Corporation, All rights reserved. ===============
 using UnityEngine;
 using System.Collections;
+using System;
 
 public struct PointerEventArgs
 {
@@ -23,6 +24,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
     bool isActive = false;
     public bool addRigidBody = false;
     public Transform reference;
+    public Transform hitpt { get; private set; }
     public event PointerEventHandler PointerIn;
     public event PointerEventHandler PointerOut;
 
@@ -55,13 +57,19 @@ public class SteamVR_LaserPointer : MonoBehaviour
         {
             if(collider)
             {
-                Object.Destroy(collider);
+                UnityEngine. Object.Destroy(collider);
             }
         }
         Material newMaterial = new Material(Shader.Find("Unlit/Color"));
         newMaterial.SetColor("_Color", color);
         pointer.GetComponent<MeshRenderer>().material = newMaterial;
+        PointerIn += draws;
 	}
+
+    private void draws(object sender, PointerEventArgs e)
+    {
+        //draw();
+    }
 
     public virtual void OnPointerIn(PointerEventArgs e)
     {
@@ -75,9 +83,15 @@ public class SteamVR_LaserPointer : MonoBehaviour
             PointerOut(this, e);
     }
 
+    public void draw()
+    {
+        var gamu = Instantiate<GameObject>(holder);
+        gamu.SetActive(true);
+        gamu.transform.position = previousContact.position;
+    }
 
     // Update is called once per frame
-	void Update ()
+    void Update ()
     {
         if (!isActive)
         {
@@ -137,5 +151,6 @@ public class SteamVR_LaserPointer : MonoBehaviour
             pointer.transform.localScale = new Vector3(thickness, thickness, dist);
         }
         pointer.transform.localPosition = new Vector3(0f, 0f, dist/2f);
+        hitpt = previousContact;
     }
 }

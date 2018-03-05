@@ -8,6 +8,7 @@ public class IsRoadArguments
 
     public IsRoadArguments(Vector3 position)
 	{
+        this.answer = false;
         this.position = position;
 	}
 }
