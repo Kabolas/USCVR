@@ -43,7 +43,7 @@ public class CreateCity : MonoBehaviour
                     obj = houses[UnityEngine.Random.Range(0, 6)];
                     break;
             }
-            Instantiate(obj, new Vector3(-x * 20, 0, y * 20) + obj.transform.position, obj.transform.rotation);
+            Instantiate(obj, new Vector3(-x * 20 -10, 0, y * 20 + 20) + obj.transform.position, obj.transform.rotation);
         }
 	}
 	
@@ -110,5 +110,20 @@ public class CreateCity : MonoBehaviour
         {
             return RoadType.CROSS;
         }
+    }
+
+    void isRoad(IsRoadArguments args)
+    {
+        int x = - (int) args.position.x/20;
+        int y = (int) args.position.z/20;
+        if(cityMap[x+y*mapWidth] == CityObject.R)
+        {
+            args.answer = true;
+        }
+        else
+        {
+            args.answer = false;
+        }
+        Debug.Log(x + ", " + y + " " + args.answer);
     }
 }
