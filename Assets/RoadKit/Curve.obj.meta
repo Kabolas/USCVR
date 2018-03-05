@@ -13,10 +13,21 @@ ModelImporter:
     2100002: None__asphalt_albedo_png.019
     2100004: None__asphalt_albedo_png.005
     2100006: None__asphalt_albedo_png.003
+    2100008: defaultMat
     2300000: default
     3300000: default
     4300000: default
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: None__asphalt_albedo_png.005
+    second: {fileID: 2100000, guid: 05f8b12f7064b334d95cfca963927111, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: defaultMat
+    second: {fileID: 2100000, guid: 05f8b12f7064b334d95cfca963927111, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
