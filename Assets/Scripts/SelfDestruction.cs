@@ -22,7 +22,7 @@ public class SelfDestruction : MonoBehaviour {
             {
                 Destroy(gameObject);
             }
-        if (parking && gameObject.transform.parent != parking.transform && gameObject.transform.parent != null)
+        if (gameObject.transform.parent != parking.transform && gameObject.transform.parent != null)
         {
             gameObject.GetComponent<BoxCollider>().enabled = false;
         }
@@ -31,7 +31,7 @@ public class SelfDestruction : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.collider.gameObject.name);
-        if (parking && gameObject.transform.parent != parking.transform && collision.collider.gameObject.name != "BodyCollider" && collision.collider.gameObject.name != "HeadCollider")
+        if (parking && gameObject.transform.parent != parking.transform && collision.collider.gameObject.name != "BodyCollider" && collision.collider.gameObject.name != "HeadCollider" && !gameObject.GetComponent<CarMovement>().togglemove)
         {
             IsRoadArguments args = new IsRoadArguments(this.transform.position);
             CityGenerator.SendMessage("isRoad", args);

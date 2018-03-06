@@ -17,9 +17,12 @@ namespace Valve.VR.InteractionSystem
         private bool bothHands = false;
         private Hand test;
         private Vector3 rotinit, Vectinit;
+        private GameObject drawer;
+
         // Use this for initialization
         void Start()
         {
+            drawer = GameObject.Find("Draw");
             idOverwatchHand = 0;
             if (player)
             {
@@ -42,18 +45,22 @@ namespace Valve.VR.InteractionSystem
             if (player)
             {
                 Hand h2 = player.hands[1];
-                if (parking && h2.isActiveAndEnabled)
-                    if (h2.controller.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+                    if (parking && h2.isActiveAndEnabled)
+                        if (h2.controller.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
                     { parking.SetActive(!parking.activeSelf); }
 
 
                 Hand h = player.hands[0];
                 if (h.isActiveAndEnabled)
                     if (h.controller.GetPressDown(EVRButtonId.k_EButton_SteamVR_Trigger))
-                        h.GetComponent<SteamVR_LaserPointer>().thickness = (float)0.002;
-                        
+                        h.GetComponent<SteamVR_LaserPointer>().thickness = (float)0.01;
+
                     else if (h.controller.GetPressUp(EVRButtonId.k_EButton_SteamVR_Trigger))
+                    {
                         h.GetComponent<SteamVR_LaserPointer>().thickness = 0;
+                        drawer.SendMessage("toggleDrawF");
+                    }
+                        
 
                 if((h.controller.GetPress(EVRButtonId.k_EButton_Grip) && player.hands[1].controller.GetPressDown(EVRButtonId.k_EButton_Grip)) || (h.controller.GetPressDown(EVRButtonId.k_EButton_Grip) && player.hands[1].controller.GetPress(EVRButtonId.k_EButton_Grip)))
                 {
