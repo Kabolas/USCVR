@@ -40,7 +40,7 @@ public class CreateCity : MonoBehaviour
                     obj = roads[(int)getRoadType(x, y)];
                     break;
                 default:
-                    obj = houses[UnityEngine.Random.Range(0, 6)];
+                    obj = houses[UnityEngine.Random.Range(0, houses.Length)];
                     break;
             }
             Instantiate(obj, new Vector3(-x * 20 -10, 0, y * 20 + 20) + obj.transform.position, obj.transform.rotation);
@@ -130,5 +130,94 @@ public class CreateCity : MonoBehaviour
             args.answer = false;
         }
         Debug.Log(args.position.x + "," + args.position.z + " : " + x + ", " + y + " " + args.answer);
+    }
+
+    void getCarTransformOnRoad(CarTransformArgs args)
+    {
+        IsRoadArguments argsIs = new IsRoadArguments(args.transform.position);
+        isRoad(argsIs);
+        if(argsIs.answer)
+        {
+            int x = -(int)args.transform.position.x / 20;
+            int y = (int)args.transform.position.z / 20;
+
+            int relativeX = -(int)args.transform.position.x % 20;
+            int relativeY = (int)args.transform.position.z % 20;
+
+            Debug.Log(relativeX + " " + relativeY);
+
+            RoadType r = getRoadType(x, y);
+            switch(r)
+            {
+                case RoadType.DEAD_END_LEFT:
+                case RoadType.DEAD_END_RIGHT:
+                case RoadType.STRAIGHT_H:
+                    if(relativeY <= 10)
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, 90, 0);
+                    }
+                    else
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, -90, 0);
+                    }
+                    break;
+                case RoadType.DEAD_END_DOWN:
+                case RoadType.DEAD_END_UP:
+                case RoadType.STRAIGHT_V:
+                    if (relativeX <= 10)
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    break;
+                case RoadType.CROSS:
+                    break;
+                case RoadType.TRI_UP:
+                    if(relativeY <= 3)
+                    {
+                        if (relativeX <= 10)
+                        {
+                            args.transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                        else
+                        {
+                            args.transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                    }
+                    else if (relativeX <= 10)
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    break;
+                case RoadType.TRI_DOWN:
+                    if (relativeY >= 17)
+                    {
+                        if (relativeX <= 10)
+                        {
+                            args.transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                        else
+                        {
+                            args.transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                    }
+                    else if (relativeX >= 10)
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    else
+                    {
+                        args.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    break;
+            }
+        }
     }
 }

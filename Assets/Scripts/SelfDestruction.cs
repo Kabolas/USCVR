@@ -6,10 +6,13 @@ public class SelfDestruction : MonoBehaviour {
     public GameObject floor;
     public GameObject CityGenerator;
     public GameObject parking;
+    
 	// Use this for initialization
 	void Start ()
     {
         CityGenerator = GameObject.Find("CityGenerator");
+        floor = GameObject.Find("Plane");
+        parking = GameObject.Find("Player/Parking");
     }
 
     // Update is called once per frame
@@ -39,8 +42,9 @@ public class SelfDestruction : MonoBehaviour {
             else
             {
                 gameObject.transform.localScale = new Vector3(2, 2, 2);
-                gameObject.transform.position = gameObject.transform.position + new Vector3(0, 3, 0);
-                gameObject.transform.rotation = Quaternion.identity;
+                gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, 0);
+                CarTransformArgs carArgs = new CarTransformArgs(gameObject.transform);
+                CityGenerator.SendMessage("getCarTransformOnRoad", carArgs);
                 gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 gameObject.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
             }
