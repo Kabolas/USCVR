@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CityObject { R, B }
+public enum CityObject { R, B, N }
 public enum RoadType { DEAD_END_UP = 0, DEAD_END_DOWN, DEAD_END_RIGHT, DEAD_END_LEFT, STRAIGHT_H, STRAIGHT_V, CURVE_UL, CURVE_UR, CURVE_DL, CURVE_DR, TRI_UP, TRI_DOWN, TRI_LEFT, TRI_RIGHT, CROSS }
 
 public class CreateCity : MonoBehaviour
@@ -13,17 +13,19 @@ public class CreateCity : MonoBehaviour
     private int mapWidth = 8;
     public UnityEngine.GameObject[] houses;
     public UnityEngine.GameObject[] roads;
+	public UnityEngine.GameObject[] nature;
 
 	// Use this for initialization
 	void Start ()
     {
         string[] cityMapL = System.IO.File.ReadAllText("Assets/map.csv").Split(new char[] {';','\n'});
+		//cityMapL.
         for (int i = 0; i < cityMapL.Length; i++)
         { 
-            Debug.Log(cityMapL[i]);
+            Debug.Log(i + " " + cityMapL[i]);
         }
         cityMap = new CityObject[cityMapL.Length];
-        for (int i = 0; i < cityMapL.Length; i++)
+        for (int i = 0; i < cityMapL.Length-1; i++)
         {
             cityMap[i] = (CityObject)Enum.Parse(typeof(CityObject), cityMapL[i]);
         }
@@ -39,6 +41,9 @@ public class CreateCity : MonoBehaviour
                 case CityObject.R:
                     obj = roads[(int)getRoadType(x, y)];
                     break;
+		case CityObject.N:
+			obj = nature[UnityEngine.Random.Range(0, nature.Length)];
+			break;
                 default:
                     obj = houses[UnityEngine.Random.Range(0, houses.Length)];
                     break;
@@ -49,7 +54,7 @@ public class CreateCity : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update ()
-    {
+	{
 		
 	}
 
