@@ -31,7 +31,7 @@ public class SelfDestruction : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.collider.gameObject.name);
-        if (parking && gameObject.transform.parent != parking.transform && collision.collider.gameObject.name != "BodyCollider" && collision.collider.gameObject.name != "HeadCollider" && !gameObject.GetComponent<CarMovement>().togglemove)
+        if (parking && gameObject.transform.parent != parking.transform && collision.collider.gameObject.name != "BodyCollider" && collision.collider.gameObject.name != "HeadCollider")
         {
             IsRoadArguments args = new IsRoadArguments(this.transform.position);
             CityGenerator.SendMessage("isRoad", args);
@@ -39,12 +39,15 @@ public class SelfDestruction : MonoBehaviour {
             {
                 Destroy(this.gameObject);
             }
-            else
+            else 
             {
                 gameObject.transform.localScale = new Vector3(2, 2, 2);
                 gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, 0);
-                CarTransformArgs carArgs = new CarTransformArgs(gameObject.transform);
-                CityGenerator.SendMessage("getCarTransformOnRoad", carArgs);
+                if (!gameObject.GetComponent<CarMovement>().togglemove)
+                {
+                    CarTransformArgs carArgs = new CarTransformArgs(gameObject.transform);
+                    CityGenerator.SendMessage("getCarTransformOnRoad", carArgs);
+                }
                 gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                 gameObject.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
             }

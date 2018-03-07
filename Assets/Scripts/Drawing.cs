@@ -37,7 +37,7 @@ public class Drawing : MonoBehaviour
     void Update()
     {
         float hauteur = 1.5f;
-        float distancemax = 80f;
+        float distancemax = 240f;
         if (hand.GetComponent<SteamVR_LaserPointer>().thickness > 0 && toggleDraw)
         {
             if (Dot(normal, hand.transform.forward) != 0)

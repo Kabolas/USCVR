@@ -9,8 +9,8 @@ public enum RoadType { DEAD_END_UP = 0, DEAD_END_DOWN, DEAD_END_RIGHT, DEAD_END_
 public class CreateCity : MonoBehaviour
 {
     private CityObject[] cityMap;
-    private int mapHeight = 5;
-    private int mapWidth = 8;
+    private int mapHeight = 12;
+    private int mapWidth = 12;
     public UnityEngine.GameObject[] houses;
     public UnityEngine.GameObject[] roads;
 	public UnityEngine.GameObject[] nature;
@@ -18,7 +18,7 @@ public class CreateCity : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        string[] cityMapL = System.IO.File.ReadAllText("Assets/map.csv").Split(new char[] {';','\n'});
+        string[] cityMapL = System.IO.File.ReadAllText("Assets/map2.csv").Split(new char[] {';','\n'});
 		//cityMapL.
         for (int i = 0; i < cityMapL.Length; i++)
         { 
